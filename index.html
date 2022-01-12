@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Shopping Cart</title>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
+   <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+   <section>
+      <div class="container">
+         <div class="cart">
+            <div class="col-md-12 col-lg-10 mx-auto">
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item">
+                        <img src="images/product-1.png" alt="">
+                        <h5>iPhone 11 128GB Black</h5>
+                     </div>
+
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button onclick="handleCaseChange('phn',false)" class="btn btn-default"><i
+                                 class="fas fa-minus"></i></button>
+                           <input id="phn-Btn" type="text" class="form-control text-center" value="0">
+                           <button onclick="handleCaseChange('phn',true)" class="btn btn-default"><i
+                                 class="fas fa-plus"></i></button>
+                        </div>
+                        <h5 id="phn-Price">$00</h5>
+                        <img src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item mx-auto">
+                        <img src="images/product-2.png" alt="">
+                        <h5>iPhone 11 Silicone Case - Black</h5>
+                     </div>
+
+                     <!----------------------- Case product detail For Price ---------------------->
+
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button onclick="handleCaseChange('case', false)" class="btn btn-default"><i
+                                 class="fas fa-minus"></i></button>
+                           <input id="case-Btn" type="text" class="form-control text-center" value="0">
+                           <button onclick="handleCaseChange('case', true)" class="btn btn-default"><i
+                                 class="fas fa-plus"></i></button>
+                        </div>
+                        <h5 id="case-Price">$00</h5>
+                        <img src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+
+                     <div class="col-md-8">
+                        <h5>Subtotal: </h5>
+                        <h5>Tax:</h5>
+                        <h5>Total:</h5>
+                     </div>
+
+                     <div class="col-md-4 status">
+                        <h5 id="total-Count">$00</h5>
+                        <h5 id="tax">$0</h5>
+                        <h5 id="overall-Price">$00</h5>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-12 pt-4 pb-4">
+                  <button type="button" class="btn btn-success check-out">Check Out</button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+
+   <!------------------- JavaScript code for interaction ----------------------------->
+
+   <script>
+      function handleCaseChange(product, isIncrease) {
+         const productInput = document.getElementById(product + '-Btn');
+         const productCount = parseFloat(productInput.value);
+
+         let productNewCount = productCount;
+         if (isIncrease == true) {
+            productNewCount = productCount + 1;
+         }
+         if (isIncrease == false && productCount > 0) {
+            productNewCount = productCount - 1;
+         }
+         document.getElementById(product + '-Btn').value = productNewCount;
+
+         let productTotal = 0;
+         if (product == 'phn') {
+            productTotal = productNewCount * 1219;
+         }
+         if (product == 'case') {
+            productTotal = productNewCount * 59;
+         }
+         document.getElementById(product + '-Price').innerText = '$' + productTotal;
+         totalCalculate();
+
+      }
+
+
+      //Handle Phone change
+      // function handlePhoneChange(isIncrease) {
+      //    const valueBtn = document.getElementById('phn-Btn').value;
+      //    const newValueBtn = parseFloat(phn-Btn);
+
+      //    let totalBtn = newValueBtn;
+      //    if (isIncrease == true) {
+      //       totalBtn = newValueBtn + 1;
+      //    }
+      //    if (isIncrease == false && totalBtn > 0) {
+      //       totalBtn = newValueBtn - 1;
+      //    }
+      //    //const totalBtn = newValueBtn + 1;
+      //    document.getElementById('phn-Btn').value = totalBtn;
+      //    const mobileTotal = totalBtn * 1219;
+      //    document.getElementById('phn-Price').innerText = '$' + mobileTotal;
+
+      //    totalCalculate();
+      // }
+
+
+      //Handle Case change
+      // function handleCaseChange(isIncrease) {
+      //    const valueBtn = document.getElementById('case-Btn').value;
+      //    const newValueBtn = parseFloat(valueBtn);
+
+      //    let totalBtn = newValueBtn;
+      //    if (isIncrease == true) {
+      //       totalBtn = newValueBtn + 1;
+      //    }
+      //    if (isIncrease == false && totalBtn > 0) {
+      //       totalBtn = newValueBtn - 1;
+      //    }
+      //    //const totalBtn = newValueBtn + 1;
+      //    document.getElementById('case-Btn').value = totalBtn;
+
+      //    const caseTotal = totalBtn * 59;
+      //    document.getElementById('case-Price').innerText = '$' + caseTotal;
+      //    totalCalculate();
+
+      // }
+
+      function totalCalculate() {
+         const phnInput = document.getElementById('phn-Btn');
+         const phnCount = parseFloat(phnInput.value);
+
+         const caseInput = document.getElementById('case-Btn');
+         const caseCount = parseFloat(caseInput.value);
+
+         const allPrice = (phnCount * 1219) + (caseCount * 59);
+
+         document.getElementById("total-Count").innerText = '$' + allPrice;
+
+         const taxPrice = Math.round(allPrice * 0.10);
+         document.getElementById('tax').innerText = '$' + taxPrice;
+
+         const overallPrice = allPrice + taxPrice;
+         document.getElementById('overall-Price').innerText = '$' + overallPrice;
+      }
+
+   </script>
+</body>
+
+</html>
